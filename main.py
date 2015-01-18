@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 import sys
-import view
+from canvas import Canvas
 from PySide import QtGui
 
 
 def main():
     app = QtGui.QApplication(sys.argv)
-    view.Canvas()
+    Canvas()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import random
 from PySide import QtGui, QtCore
 
 
@@ -22,4 +23,10 @@ class Canvas(QtGui.QWidget):
 
     def drawPoints(self, qp):
         qp.setPen(QtCore.Qt.red)
-        qp.drawPoint(10, 10)
+        size = self.size()
+        
+        for i in range(1000):
+            x = random.randint(1, size.width()-1)
+            y = random.randint(1, size.height()-1)
+            
+            qp.drawPoint(x, y) 
