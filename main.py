@@ -17,7 +17,7 @@ def main():
               for y in range(width)] for x in range(height)]
     print "rendering frame"
     # NOTE: View is garbage collected if I don't extract to a variable
-    v = View(image)
+    v = View(image, width, height)
     sys.exit(app.exec_())
 
 

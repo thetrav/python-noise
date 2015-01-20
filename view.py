@@ -2,27 +2,29 @@ from PySide import QtGui
 
 
 class View(QtGui.QWidget):
-    def __init__(self, image):
+    def __init__(self, image, w, h):
         super(View, self).__init__()
-        self.image = image
+        self.w = w
+        self.h = h
+        self.pixmap = QtGui.QPixmap(w, h)
+        self.drawPoints(QtGui.QPainter(self.pixmap), image)
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(300, 300, len(self.image), len(self.image[0]))
+        self.setGeometry(300, 300, self.w, self.h)
         self.setWindowTitle('Perlin')
         self.show()
 
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
-        self.drawPoints(qp)
+        qp.drawPixmap(self.contentsRect(), self.pixmap)
         qp.end()
 
     # TODO: find a faster rendering option.
-    def drawPoints(self, qp):
-        size = self.size()
-        for x in range(size.width()):
-            for y in range(size.height()):
-                noise = self.image[x][y]
+    def drawPoints(self, qp, image):
+        for x in range(self.w):
+            for y in range(self.h):
+                noise = image[x][y]
                 qp.setPen(QtGui.QColor(noise, noise, noise))
                 qp.drawPoint(x, y)
