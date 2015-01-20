@@ -21,6 +21,8 @@ class Perlin:
     def __init__(self, gridSize=50.0, seed=133788135):
         self.gridSize = gridSize
         self.seed = seed
+        self.generator = random.Random(seed)
+        self.cache = {}
 
     def snap_left(self, scalar):
         size = self.gridSize
@@ -29,11 +31,11 @@ class Perlin:
         return s - s % size - shift
 
     def gradient(self, vector):
-        seed = self.seed * reduce(lambda a, b: a * 10 + b, vector, 0)
-        rGen = random.Random(seed)
-        a = coord(rGen.random(), rGen.random())
-        gradient = a / norm(a)
-        return gradient
+        key = "%s, %s" % (vector[0], vector[1])
+        if not (key in self.cache):
+            a = coord(self.generator.random(), self.generator.random())
+            self.cache[key] = a / norm(a)
+        return self.cache[key]
 
     def value(self, vector):
         size = self.gridSize
